@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Responsive Digital Clock</title>
     <style>
-        body
-        {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+        
+        body {
             background-color: black;
             height: 100vh;
             width: 100%;
@@ -17,70 +19,65 @@
             justify-content: center;
             align-items: center;
             color: white;
-            font-size: 1rem;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-align: center;
         }
 
-        h1
-        {
+        h1 {
             font-size: 8rem;
         }
-
-        .dots-effect
-        {
-            animation: mymove 1s infinite;
+        
+        .dots-effect {
+            animation: blink 1s infinite;
         }
 
-        @keyframes mymove {
-            0% {
-                opacity: 1;
-            }
-            100%
-            {
-                opacity: 0;
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 6rem;
             }
         }
 
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <span id="dots" style="display: none;">:</span>
-    <h1></h1>
+    <h1 id="clock"></h1>
 </body>
 <script>
-    
-    
-    function Time()
-    {
+    function updateTime() {
         let d = new Date();
-        
-        // d.setHours(21);
-        
         let h = d.getHours();
         let m = d.getMinutes();
         let s = d.getSeconds();
+        let period = h >= 12 ? "PM" : "AM";
         
-        let dots = document.querySelector("#dots").innerHTML;
-        document.querySelector("#dots").classList.add("dots-effect");
-
+        if (h > 12) h -= 12;
+        if (h === 0) h = 12;
         
-        if(h >= 13)
-        {
-            h -= 12;
-        }
+        let newH = h < 10 ? "0" + h : h;
+        let newM = m < 10 ? "0" + m : m;
+        let newS = s < 10 ? "0" + s : s;
         
-        let newH = (h < 10) ? "0"+h : h; 
-        let newM = (m < 10) ? "0"+m : m; 
-        let newS = (s < 10) ? "0"+s : s; 
-        let peradium = (d.getHours() >= 12) ? "PM" : "AM";
-
-        document.querySelector("h1").innerHTML = `${newH} ${dots} ${newM} ${dots} ${newS} ${peradium}`;
-
-        setInterval(Time,1000);
-
+        document.getElementById("clock").innerHTML = `${newH} <span class="dots-effect">:</span> ${newM} <span class="dots-effect">:</span> ${newS} ${period}`;
     }
-
-    Time();
-
+    
+    setInterval(updateTime, 1000);
+    updateTime();
 </script>
 </html>

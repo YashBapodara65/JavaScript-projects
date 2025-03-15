@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Pokémon List</h1>
+        <div class="row pokemon-list">
+            <!-- Pokémon will be displayed here -->
+        </div>
+    </div>
+</body>
+<script>
+    const pokemonListContainer = document.querySelector(".pokemon-list");
+
+    // Fetch the list of Pokémon
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=1302") // Limited to 50 for demonstration
+        .then((res) => res.json())
+        .then((data) => {
+            // Iterate through each Pokémon and fetch their details
+            data.results.forEach((pokemon) => {
+                fetch(pokemon.url)
+                    .then((res) => res.json())
+                    .then((details) => {
+                        // Append Pokémon to the list as they are fetched
+                        const pokemonCard = `
+                            <div class="col-md-3 col-sm-6 mb-4 text-center">
+                                <div class="card">
+                                    <img src="${details.sprites.front_default}" alt="${details.name}" class="card-img-top p-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${details.name.toUpperCase()}</h5>
+                                    </div>
+                                </div>
+                            </div>`;
+                        pokemonListContainer.innerHTML += pokemonCard;
+                    })
+                    .catch((err) => console.error(`Error fetching details for ${pokemon.name}:`, err));
+            });
+        })
+        .catch((err) => {
+            console.error("Error fetching Pokémon list:", err);
+        });
+
+    
+    // fetch("https://pokeapi.co/api/v2/pokemon/pikachu/")
+    //     .then((res) => res.json()) // Return the JSON data
+    //     .then((data) => {
+    //         console.log(data); // Log the response data
+    //     })
+    //     .catch((err) => {
+    //         console.error("Error:", err); // Log errors, if any
+    //     });
+
+
+</script>
+</html>

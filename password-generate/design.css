@@ -1,0 +1,82 @@
+body
+{
+    background-color: black;
+}
+
+.at-box
+{
+    height: 100px;
+}
+
+h1
+{
+    color: rgb(197, 196, 196);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+form input
+{
+    background-color: #171717;
+    border: none;
+    width: 400px;
+    height: 40px;
+    outline: none;
+    color: white;
+    font: 22px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.icon
+{
+    top: 50%;
+    right: 2%;
+    transform: translate(-50%,-50%);
+}
+
+.icon .fa-copy
+{
+    color: rgb(187, 249, 125);
+    cursor: pointer;
+}
+
+.box .innerbox
+{
+    background-color: #171717;
+    width: 400px;
+}
+
+.box .innerbox p
+{
+    font-size: 18px;
+    color: rgb(214, 214, 214);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.box .innerbox .length
+{
+    color: #6ECB5A;
+    font-size: 28px;   
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.box .innerbox input[type="range"]
+{
+    accent-color: #6ECB5A;
+    border-radius: 0px;
+}
+
+.box .innerbox input[type="checkbox"]
+{
+    accent-color: #6ECB5A;
+    width: 17px;
+    height: 17px;
+}
+
+.box .innerbox button
+{
+    background-color: #6ECB5A;
+    border: none;
+    width: 100%;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+}

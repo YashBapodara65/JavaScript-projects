@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Animated SVG Progress Circle Demos</title>
+	<link rel="stylesheet" href="./timer.css">
+	<style>
+		
+        *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body 
+        {
+            font-family:Verdana, Geneva, Tahoma, sans-serif; 
+            background-color:#fefefe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: blueviolet;
+            height: 100vh;
+        }
+        
+		.circlechart {
+		 	float: left;
+			padding: 20px;
+		}
+
+        .main
+        {
+            height: 500px;
+            border-radius: 20px;
+            width: 600px;
+            background: linear-gradient(rgba(255, 255, 255, 0.5),rgba(255,255,255,0.5));
+        }
+
+        .box
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        .box .txt
+        {
+            position: absolute;
+            border: none;
+            /* border-bottom: 2px solid black; */
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #demo
+        {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        input
+        {
+            font-size: 100px;
+            width: 160px;
+            border: none;
+            text-align: center;
+            outline: none;
+            background: transparent;
+        }
+
+        input::placeholder
+        {
+            color: black;
+        }
+
+        .btns
+        {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        #stopbtn
+        {
+            font-size: 25px;
+            border: none;
+            padding: 10px 20px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-weight: bold;
+            background-color: red;
+            color: white;
+            border-radius: 10px;
+        }
+
+        #startbtn
+        {
+            font-size: 25px;
+            border: none;
+            padding: 10px 20px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-weight: bold;
+            background-color: rgb(5, 170, 35);
+            color: white;
+            border-radius: 10px;
+        }
+
+        #resetbtn
+        {
+            font-size: 25px;
+            border: none;
+            padding: 10px 20px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-weight: bold;
+            background-color: rgb(11, 144, 226);
+            color: white;
+            border-radius: 10px;
+        }
+
+	</style>
+</head>
+<body>
+    <div class="main">
+        <div class="box">
+            <div class="txt">
+                <input id="hours" type="text" maxlength="2" placeholder="00">
+                <span style="font-size: 60px; padding-bottom: 8px;">:</span>
+                <input id="mins" type="text" maxlength="2" placeholder="00">
+                <span style="font-size: 60px; padding-bottom: 8px;">:</span>
+                <input id="secs" type="text" maxlength="2" placeholder="00">
+            </div>
+            <div id="demo">
+                <!-- <div class="circlechart" data-percentage="100">
+                </div> -->
+            </div>
+        </div>
+        <div class="btns">
+            <button id="stopbtn">Stop</button>
+            <button id="startbtn">Start</button>
+            <button id="resetbtn">Reset</button>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="./timer.js"></script>
+<script>
+    $('.circlechart').circlechart(); // Initialization
+</script>
+<script>
+
+    let res;
+    
+    document.querySelector("#startbtn").addEventListener('click',()=>{
+
+        let h = document.querySelector("#hours").value;
+        let m = document.querySelector("#mins").value;
+        let s = document.querySelector("#secs").value;
+        let body = document.querySelector("body");
+
+        let hString;
+        let mString;
+        let sString;
+
+        res = setInterval(()=>{
+            s--;
+            if(h==0 && m==0 && s==0)
+            {
+                h = m = s = 0;
+                
+                setInterval(()=>{
+                    if(body.style.background == "red")
+                    {
+                        body.style.background = "blueviolet";
+                    }
+                    else
+                    {
+                        body.style.background = "red";
+                    }
+                },300);
+
+                clearInterval(res);
+            }
+            else if(s < 0)
+            {
+                s = 59;
+                m--;
+                if(m < 0)
+                {
+                    m = 59;
+                    h--;
+                    if(h < 0)
+                    {
+                        h = 0;
+                    }
+                }
+            }
+            
+            hString = (h < 10) ? `0${h}` : `${h}`;    
+            mString = (m < 10) ? `0${m}` : `${m}`;
+            sString = (s < 10) ? `0${s}` : `${s}`;
+
+            document.querySelector("#hours").value = hString;
+            document.querySelector("#mins").value = mString;
+            document.querySelector("#secs").value = sString;
+        },1000);
+
+    });
+
+    document.querySelector("#stopbtn").addEventListener("click",()=>{
+        clearInterval(res);
+    });
+
+    document.querySelector("#resetbtn").addEventListener("click",()=>{
+        clearInterval(res);
+        document.querySelector("#hours").value = "00";
+        document.querySelector("#mins").value = "00";
+        document.querySelector("#secs").value = "00";
+    });
+
+
+</script>
+</html>

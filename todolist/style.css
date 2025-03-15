@@ -1,0 +1,122 @@
+.s1 form
+{
+}
+
+.s1 form input
+{
+    height: 40px;
+    border: 2px solid blueviolet;
+}
+
+.s1 div .options
+{
+    background-color: blueviolet;
+}
+
+.s1 .options select
+{
+    background: transparent;
+    color: white;
+    height: 40px;
+    border: 2px solid blueviolet;
+}
+
+.s1 .options select:focus
+{
+    color: white;
+    background-color: blueviolet;
+}
+
+.s1 div select:focus
+{
+    background: transparent;
+}
+
+.s1 div .bi-caret-down-fill
+{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%,-50%);
+    color: white;
+}
+
+.s1 button
+{
+    height: 40px;
+    background-color: blueviolet;
+    color: white;
+}
+
+.s2
+{
+    /* height: 730px;
+    overflow: auto; */
+    height: auto;
+}
+
+.s2::-webkit-scrollbar
+{
+    display: none;
+}
+
+.s2 .line
+{
+    border: 1px solid gray;
+}
+
+.plus-icon
+{
+    width: 100%;
+    height: 45px;
+    position: relative;
+}
+
+.inner-icon
+{
+    position: absolute;
+    right: 10%;
+    bottom: 0;
+    width: 150px;
+    height: 45px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+}
+
+.bi-plus-lg
+{
+    background: blueviolet;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    align-items: center;
+}
+
+.delete
+{
+    display: none;
+}
+
+.bi-trash-fill
+{
+    cursor: pointer;
+    background: red;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media(max-width: 768px)
+{
+    .s2
+    {
+        /* height: 670px; */
+        height: auto;
+    }
+}

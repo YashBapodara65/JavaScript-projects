@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <h1 class="fs-4 text-center mt-5" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">TODO LIST</h1>
+
+    <section class="s1 d-flex align-items-center justify-content-evenly">
+        <div class="container p-0 d-flex align-items-center justify-content-evenly row w-100 m-0">
+            <form action="" class="col-12 mt-4 col-md-7">
+                <input type="text" class="form-control shadow-none" id="searchData" placeholder="Search note...">
+            </form>
+            <div
+                class="options d-flex align-items-center justify-content-evenly p-0 col-8 mt-4 col-md-3 shadow-sm rounded-2 position-relative">
+                <select name="" id="" class="form-control shadow-none">
+                    <option value="">All</option>
+                    <option value="">Asc</option>
+                    <option value="">Desc</option>
+                </select>
+                <i class="bi bi-caret-down-fill"></i>
+            </div>
+            <div class="col-2 col-md-1 d-flex align-items-center p-0 justify-content-evenly mt-4">
+                <button class="ps-3 pe-3 border-0 shadow-sm rounded-2" id="modeChange"><i class="bi fs-5 bi-moon-stars"
+                        id="modeColor"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="s2 p-4 mt-4">
+        <div class="container disp-data ps-5 pe-5">
+
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Todo Title</h1>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-data" action="">
+                        <input type="text" id="txt-data" class="form-control shadow-none"
+                            placeholder="Enter todo list data">
+                        <div class="mt-2 ps-2 error">
+
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="plus-icon mb-4">
+        <div class="inner-icon">
+            <div class="delete">
+                <i class="bi bi-trash-fill fs-5 text-white rounded-circle"></i>
+            </div>
+            <i class="bi bi-plus-lg fs-5 text-white rounded-circle" data-bs-toggle="modal"
+                data-bs-target="#exampleModal"></i>
+        </div>
+    </div>
+
+</body>
+<script>
+
+    let arr = JSON.parse(localStorage.getItem("todo")) || [];
+
+    reloadData();
+
+    document.querySelector("#searchData").addEventListener("input", () => {
+        let searchField = document.querySelector("#searchData").value
+        let ans = "";
+
+        arr.forEach((el, i) => {
+            if ((el.title).includes(searchField)) {
+                ans += `
+            <div class="d-flex .data justify-content-start gap-3 align-items-center">
+                <input type="checkbox" class="form-check-input mb-1 fs-5">
+                <h1 class="m-0 fs-6" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">${el.title}</h1>
+                </div>
+                <div class="line mt-4 mb-4">
+                    
+                    </div>
+                    `;
+            }
+        });
+
+        if (ans == "") {
+            document.querySelector(".disp-data").innerHTML = `<h1 class="fs-5">Search data not found...!</h1>`;
+        }
+        else {
+            document.querySelector(".disp-data").innerHTML = ans;
+        }
+
+
+        // console.log(ans);
+
+    });
+
+    document.querySelector("#form-data").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        let data = document.querySelector("#txt-data").value;
+        let valid = true;
+
+        let obj = {
+            title: data
+        };
+
+        if (data == "") {
+            document.querySelector(".error").innerHTML = "please fillup this data *"
+            document.querySelector(".error").style.color = "red";
+            valid = false;
+        }
+        else {
+            document.querySelector(".error").innerHTML = ""
+        }
+
+        if (valid) {
+            arr.push(obj);
+            localStorage.setItem("todo", JSON.stringify(arr));
+            reloadData();
+        document.querySelector("#txt-data").value = "";
+        }
+
+    });
+
+
+    let mode = document.querySelector("#modeChange");
+
+    document.querySelector("#modeChange").addEventListener("click", () => {
+        let modeColor = document.querySelector("#modeColor").getAttribute("class");
+        // console.log(modeColor.getAttribute("class"));
+
+        if (modeColor.includes("bi-moon-stars")) {
+            document.querySelector("#modeColor").classList.remove("bi-moon-stars");
+            document.querySelector("#modeColor").classList.add("bi-brightness-high");
+            document.body.style.background = "black";
+
+            // document.querySelector(".line").style.border = "2px solid white";
+
+            document.querySelectorAll("h1").forEach((el, i) => {
+                el.style.color = "white";
+            });
+        }
+        else {
+            document.querySelector("#modeColor").classList.add("bi-moon-stars");
+            document.querySelector("#modeColor").classList.remove("bi-brightness-high");
+            document.body.style.background = "white";
+
+            // document.querySelector(".line").style.border = "2px solid gray";
+
+            document.querySelectorAll("h1").forEach((el, i) => {
+                el.style.color = "black";
+            });
+        }
+    });
+
+    function reloadData() {
+        if (arr == "") {
+            document.querySelector(".delete").style.display = "none";
+            document.querySelector(".disp-data").innerHTML = `<h1 class="fs-5">Please add your data into todo list</h1>`;
+        }
+        else {
+            document.querySelector(".delete").style.display = "block";
+            let data = "";
+            arr.forEach((el, i) => {
+
+                data += `
+            <div class="d-flex .data justify-content-start gap-3 align-items-center">
+                <input type="checkbox" class="form-check-input checkboxes mb-1 fs-5" value=${i}>
+                <h1 class="m-0 fs-6" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">${el.title}</h1>
+                </div>
+                <div class="line mt-4 mb-4">
+                    
+                    </div>
+                    `;
+            });
+            document.querySelector(".disp-data").innerHTML = data;
+        }
+    }
+
+    document.querySelector(".bi-trash-fill").addEventListener("click",()=>{
+        let checkb = document.querySelectorAll(".checkboxes");
+        let del_key = [];
+        checkb.forEach((el,i)=>{
+            if(el.checked == true)
+            {
+                del_key.push(el.value);
+            }
+        })
+
+        if(del_key.length > 0)
+        {
+
+            // Sort the delete keys in descending order to avoid index shifting
+            del_key.sort((a, b) => b - a);
+
+            // console.log(del_key);
+            del_key.forEach((el,i)=>{
+                arr.splice(el,1);
+                localStorage.setItem("todo",JSON.stringify(arr));
+                reloadData();
+            })
+        }
+        else
+        {
+            alert("Please checkout our list");
+        }
+
+    })
+
+</script>
+
+</html>

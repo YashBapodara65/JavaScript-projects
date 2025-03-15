@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+
+        *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main
+        {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .disp
+        {
+            border-radius: 20px;
+            background-color: black;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .btns
+        {
+            width: 420px;
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .time
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 55px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-weight: bold;
+        }
+
+        #stopBtn
+        {
+            background-color: red;
+            font-size: 20px;
+            font-family:Arial, Helvetica, sans-serif;
+            border: none;
+            padding: 10px 30px;
+            font-weight: bold;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #startBtn
+        {
+            background-color: rgb(20, 212, 10);
+            font-size: 20px;
+            font-family:Arial, Helvetica, sans-serif;
+            border: none;
+            padding: 10px 30px;
+            font-weight: bold;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #resetBtn
+        {
+            background-color: rgb(18, 168, 228);
+            font-size: 20px;
+            font-family:Arial, Helvetica, sans-serif;
+            border: none;
+            padding: 10px 30px;
+            font-weight: bold;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="disp">
+            <div class="time" id="timeDisplay">00 : 00 : 00 : 00</div>
+        </div>
+        <div class="btns">
+            <button id="stopBtn">Stop</button>
+            <button id="startBtn">Start</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+    </div>
+</body>
+<script>
+
+    let timerDisplay = document.querySelector('#timeDisplay');
+    let stopBtn = document.querySelector('#stopBtn');
+    let startBtn = document.querySelector('#startBtn');
+    let resetBtn = document.querySelector('#resetBtn');
+
+    let milisec = 0;
+    let sec = 0;
+    let mins = 0;
+    let hours = 0;
+
+    let timeId;
+    
+    startBtn.addEventListener('click',()=>{
+        timeId = setInterval(startNow,10);
+    });
+    
+    stopBtn.addEventListener('click',()=>{
+        clearInterval(timeId);
+    });
+    
+    resetBtn.addEventListener('click',()=>{
+        clearInterval(timeId);
+        timerDisplay.innerText = "00 : 00 : 00 : 00";
+        milisec = sec = mins = 0;
+    });
+
+    
+    function startNow()
+    {
+        milisec++;
+        if(milisec == 100)
+        {
+            milisec = 0;
+            sec++;
+            if(sec == 60)
+            {
+                sec = 0;
+                mins++;
+                if(mins == 60)
+                {
+                    mins = 0;
+                    hours++;
+                    if(hours == 60)
+                    {
+                        hours = 0;
+                    }
+                }
+            }
+        }
+
+        let milisecString = milisec < 10 ? `0${milisec}` : milisec;
+        let secString = sec < 10 ? `0${sec}` : sec;
+        let minsString = mins < 10 ? `0${mins}` : mins;
+        let hoursString = hours < 10 ? `0${hours}` : hours;
+
+        timerDisplay.innerHTML = `${hoursString} : ${minsString} : ${secString} : ${milisecString}`;
+    }
+
+</script>
+</html>
